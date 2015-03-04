@@ -1,0 +1,13 @@
+<% provide(:title, @user.name) %>
+<div class = "row">
+	<aside class ="col-md-4">
+		<section class = "user_info">
+			<h1>
+	<!-- Gravatar is a free service that allows users to upload images andd associate them with email addresses they control -->
+	<!-- gravatar_for is a helper method defined in users_helper -->
+				<%= gravatar_for @user %>
+				<%= @user.name %>
+			</h1>
+		</section>
+	</aside>
+</div>
