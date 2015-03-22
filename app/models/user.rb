@@ -6,12 +6,12 @@ class User < ActiveRecord::Base
 	validates :email, presence: true, length: { maximum: 255 },
 				format: {with: VALID_EMAIL_REGEX },
 				uniqueness: { case_sensitive: false }
-	validates :password, length: { minimum: 6 }
-	#method for password security
+	validates :password, length: { minimum: 6 }, allow_blank: true
+	#method for password security, allows blank password so users don't need to change passwords.
 	has_secure_password
-  #Returns the hash digest of the given string
+  #Returns the hash digest of the given string, enforces password presence validations so users dont create accounts with no passwords  
   def self.digest(string)
-    cost = Activemodel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
+    cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
                                                   BCrypt::Engine.cost
     BCrypt::Password.create(string, cost: cost)
   end
@@ -22,12 +22,12 @@ class User < ActiveRecord::Base
 
   def remember
     self.remember_token = User.new_token
-    update_atrribute(:remember_digest, User.digest(remember_token)) 
+    update_attribute(:remember_digest, User.digest(remember_token)) 
   end
   #Returns true if the given token matches the digest
   def authenticated?(remember_token)
     return false if remember_digest.nil?
-    Bcrypt::Password.new(remember_digest).is_password?(remember_token)
+    BCrypt::Password.new(remember_digest).is_password?(remember_token)
   end
 
   def forget
