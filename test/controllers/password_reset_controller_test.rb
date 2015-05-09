@@ -10,5 +10,4 @@ class PasswordResetControllerTest < ActionController::TestCase
     get :edit
     assert_response :success
   end
-
 end
