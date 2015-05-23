@@ -21,7 +21,7 @@ class MicropostsControllerTest < ActionController::TestCase
 
   test "should redirect destroy for wrong micropost" do
     log_in_as(users(:Faris))
-    micropost = microposts(:ants))
+    micropost = microposts(:ants)
     assert_no_difference 'Micropost.count' do
       delete :destroy, id: micropost
     end
